@@ -90,7 +90,6 @@ public class Main {
     }
 
     private static CFGClass problemFourCFG() {
-        // Language {a^(2n+3)b^n | n>=0}
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'T'));
         Character startSymbol = 'S';
