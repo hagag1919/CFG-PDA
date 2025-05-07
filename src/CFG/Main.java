@@ -1,8 +1,9 @@
+package CFG;
 
 import java.io.*;
 import java.util.*;
 
-public class CFGMain {
+public class Main {
 
     static String cfgInput = "input_cfg.txt";
     static String cfgOutput = "output_cfg.txt";

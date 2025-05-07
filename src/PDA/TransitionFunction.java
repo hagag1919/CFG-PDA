@@ -1,3 +1,5 @@
+package PDA;
+
 public class TransitionFunction {
 
     public void addressItem(int currentState, char input, char stackTop, int nextState, String stackPush) {

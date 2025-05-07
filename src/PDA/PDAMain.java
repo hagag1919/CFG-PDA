@@ -1,5 +1,6 @@
+package PDA;
+
 import java.io.*;
-import java.util.*;
 
 public class PDAMain {
     static String pdaInput = "input_pda.txt";
