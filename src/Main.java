@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         try (BufferedReader br = new BufferedReader(new FileReader(cfgInput));
-             BufferedWriter bw = new BufferedWriter(new FileWriter(cfgOutput))) {
+                BufferedWriter bw = new BufferedWriter(new FileWriter(cfgOutput))) {
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -49,7 +49,6 @@ public class Main {
     }
 
     private static CFGClass problemOneCFG() {
-        // Equal number of a's and b's
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S'));
         Character startSymbol = 'S';
@@ -63,28 +62,27 @@ public class Main {
 
     private static CFGClass problemTwoCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'T'));
+        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S'));
         Character startSymbol = 'S';
-    
+
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aSTb", "T")));
-        productionRules.put('T', new ArrayList<>(Arrays.asList("bT", "ε")));
-    
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aSbb", "bbSa", "SS", "ε")));
+
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
 
     private static CFGClass problemThreeCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'A', 'B', 'E'));
+        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'A', 'B', 'D'));
         Character startSymbol = 'S';
-    
+
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aSa", "bSb", "aA", "bB", "a", "b")));
-        productionRules.put('A', new ArrayList<>(Arrays.asList("bE")));
-        productionRules.put('B', new ArrayList<>(Arrays.asList("aE")));
-        productionRules.put('E', new ArrayList<>(Arrays.asList("aE", "bE", "ε")));
-    
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aSa", "bSb", "A", "B")));
+        productionRules.put('A', new ArrayList<>(Arrays.asList("aDb")));
+        productionRules.put('B', new ArrayList<>(Arrays.asList("bDa")));
+        productionRules.put('D', new ArrayList<>(Arrays.asList("aD", "bD", "ε")));
+
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
@@ -95,8 +93,8 @@ public class Main {
         Character startSymbol = 'S';
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT", "aaa")));
-        productionRules.put('T', new ArrayList<>(Arrays.asList("aaTb", "aab")));
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT")));
+        productionRules.put('T', new ArrayList<>(Arrays.asList("aTb", "ε")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
@@ -106,11 +104,11 @@ public class Main {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'B'));
         Character startSymbol = 'S';
-    
+
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
         productionRules.put('S', new ArrayList<>(Arrays.asList("aS", "aB")));
-        productionRules.put('B', new ArrayList<>(Arrays.asList("aBb", "ab", "ε")));
-    
+        productionRules.put('B', new ArrayList<>(Arrays.asList("aBb", "ab")));
+
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
