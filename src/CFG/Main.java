@@ -1,3 +1,4 @@
+package CFG;
 
 import java.io.*;
 import java.util.*;

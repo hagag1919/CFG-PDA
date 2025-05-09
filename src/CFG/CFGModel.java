@@ -1,3 +1,5 @@
+package CFG;
+
 import java.util.ArrayList;
 import java.util.Map;
 
