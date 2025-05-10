@@ -9,8 +9,7 @@ public class Main {
     static String cfgOutput = "output_cfg.txt";
 
     public static void main(String[] args) {
-        try (BufferedReader br = new BufferedReader(new FileReader(cfgInput));
-                BufferedWriter bw = new BufferedWriter(new FileWriter(cfgOutput))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(cfgInput)); BufferedWriter bw = new BufferedWriter(new FileWriter(cfgOutput))) {
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -49,6 +48,7 @@ public class Main {
         }
     }
 
+    // 1.	S -> aSb | bSa | ba | ab | ε
     private static CFGClass problemOneCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S'));
@@ -61,46 +61,48 @@ public class Main {
         return new CFGClass(cfgModel);
     }
 
+    // 2.	S -> bba | abb | aSbb | bbSa | ε
     private static CFGClass problemTwoCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S'));
         Character startSymbol = 'S';
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aSbb", "bbSa", "SS", "ε")));
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aSbSbS", "bSbSaS", "bSaSbS", "ε")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
 
+    // 3.    S -> aSa | bSb | aTb | bTa, T -> aT | bT | ε
     private static CFGClass problemThreeCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'A', 'B', 'D'));
+        ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S','T'));
         Character startSymbol = 'S';
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aSa", "bSb", "A", "B")));
-        productionRules.put('A', new ArrayList<>(Arrays.asList("aDb")));
-        productionRules.put('B', new ArrayList<>(Arrays.asList("bDa")));
-        productionRules.put('D', new ArrayList<>(Arrays.asList("aD", "bD", "ε")));
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aSa","bSb","aTb", "bTa")));
+        productionRules.put('T', new ArrayList<>(Arrays.asList("aT", "bT", "ε")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
 
+    //4. S -> aaaT, T-> aaTb | ε
     private static CFGClass problemFourCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'T'));
         Character startSymbol = 'S';
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT")));
-        productionRules.put('T', new ArrayList<>(Arrays.asList("aTb", "ε")));
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT", "aaa")));
+        productionRules.put('T', new ArrayList<>(Arrays.asList("aaTb", "aab")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
     }
 
+    // 5.	S -> aS | aB, B -> aBb | ε 
     private static CFGClass problemFiveCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'B'));
@@ -108,7 +110,7 @@ public class Main {
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
         productionRules.put('S', new ArrayList<>(Arrays.asList("aS", "aB")));
-        productionRules.put('B', new ArrayList<>(Arrays.asList("aBb", "ab")));
+        productionRules.put('B', new ArrayList<>(Arrays.asList("aBb", "ab", "ε")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);

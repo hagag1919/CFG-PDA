@@ -1,10 +1,11 @@
 {
     "jira-plugin.workingProject": "",
     "github.copilot.enable": {
-        "*": false,
+        "*": true,
         "plaintext": false,
         "markdown": false,
         "scminput": false,
-        "php": true
+        "php": true,
+        "java": true
     }
 }
