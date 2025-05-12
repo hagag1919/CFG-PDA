@@ -86,14 +86,6 @@ public class PDAMain {
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
 
-        transitionFunction.addTransition(0, 'ε', 'ε', 1, "$");
-        transitionFunction.addTransition(1, 'a', 'ε', 2, "ε");
-        transitionFunction.addTransition(2, 'a', 'ε', 3, "ε");
-        transitionFunction.addTransition(3, 'b', 'ε', 1, "a");
-        transitionFunction.addTransition(1, 'ε', 'ε', 4, "ε");
-        transitionFunction.addTransition(4, 'b', 'ε', 5, "ε");
-        transitionFunction.addTransition(5, 'b', 'a', 4, "ε");
-        transitionFunction.addTransition(4, 'ε', '$', 6, "ε");
 
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
@@ -103,7 +95,7 @@ public class PDAMain {
     private static PDAClass problemThreePDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(3));
-        ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('{', '}'));
+        ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('{', '}',' '));
         ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', '{', '}'));
         int startState = 0;
         char stackInitial = '$';
@@ -111,9 +103,11 @@ public class PDAMain {
 
         transitionFunction.addTransition(0, 'ε', 'ε', 1, "$");
         transitionFunction.addTransition(1, '{', 'ε', 1, "{");
+        transitionFunction.addTransition(1,' ', 'ε', 1, "ε");
         transitionFunction.addTransition(1, '}', '{', 2, "ε");
         transitionFunction.addTransition(2, '{', 'ε', 1, "{");
         transitionFunction.addTransition(2, '}', '{', 2, "ε");
+        transitionFunction.addTransition(2, ' ', 'ε', 2, "ε");
         transitionFunction.addTransition(3, 'ε', '$', 3, "ε");
 
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
