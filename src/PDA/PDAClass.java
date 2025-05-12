@@ -27,41 +27,8 @@ public class PDAClass {
     public boolean isAccepted(String input) {
         Stack<Character> stack = new Stack<>();
         stack.push(stackInitial);
-        return simulate(startState, input, 0, stack);
-    }
+        int currentState = startState;
 
-    private boolean simulate(int currentState, String input, int index, Stack<Character> stack) {
-        char inputChar = (index < input.length()) ? input.charAt(index) : 'ε';
-        char stackTop = stack.isEmpty() ? 'ε' : stack.peek();
-
-        // Try input transition
-        TransitionValue transition = transitionFunction.getTransition(currentState, inputChar, stackTop);
-        if (transition != null) {
-            Stack<Character> newStack = new Stack<>();
-            newStack.addAll(stack);
-            if (!newStack.isEmpty()) newStack.pop();
-            for (int i = transition.stackPush.length() - 1; i >= 0; i--) {
-                char c = transition.stackPush.charAt(i);
-                if (c != 'ε') newStack.push(c);
-            }
-            int nextIndex = inputChar == 'ε' ? index : index + 1;
-            if (simulate(transition.nextState, input, nextIndex, newStack)) return true;
-        }
-
-        // Try ε transition
-        TransitionValue epsilonTransition = transitionFunction.getTransition(currentState, 'ε', stackTop);
-        if (epsilonTransition != null) {
-            Stack<Character> newStack = new Stack<>();
-            newStack.addAll(stack);
-            if (!newStack.isEmpty()) newStack.pop();
-            for (int i = epsilonTransition.stackPush.length() - 1; i >= 0; i--) {
-                char c = epsilonTransition.stackPush.charAt(i);
-                if (c != 'ε') newStack.push(c);
-            }
-            if (simulate(epsilonTransition.nextState, input, index, newStack)) return true;
-        }
-
-        return index == input.length() && finalStates.contains(currentState);
     }
 
     public void solveProblem(BufferedReader br, BufferedWriter bw) throws IOException {

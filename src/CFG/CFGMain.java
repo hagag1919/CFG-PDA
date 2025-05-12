@@ -3,7 +3,7 @@ package CFG;
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class CFGMain {
 
     static String cfgInput = "input_cfg.txt";
     static String cfgOutput = "output_cfg.txt";

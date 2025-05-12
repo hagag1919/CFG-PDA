@@ -5,8 +5,8 @@ Rejected
 Rejected
 x
 2
-Rejected
-Rejected
+Accepted
+Accepted
 Rejected
 Rejected
 x
@@ -17,8 +17,8 @@ Rejected
 Rejected
 x
 4
-Rejected
-Rejected
+Accepted
+Accepted
 Rejected
 Rejected
 x

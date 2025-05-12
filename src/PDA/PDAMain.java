@@ -55,11 +55,12 @@ public class PDAMain {
         }
     }
 
+    // PDA for language a^n b^n c^n (n ≥ 0)
     private static PDAClass problemOnePDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(4));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b', 'c'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('ε', '$', 'a'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'a'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -75,11 +76,12 @@ public class PDAMain {
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
 
+    // PDA for language { a^(3n) b^(2n) | n ≥ 1 }
     private static PDAClass problemTwoPDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(6));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('ε', '$', 'a'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'a'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -96,11 +98,13 @@ public class PDAMain {
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
 
+    // TODO : handel the spaces
+    // PDA for balanced parentheses language
     private static PDAClass problemThreePDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(3));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('{', '}'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('ε', '$', '{', '}'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', '{', '}'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -115,11 +119,12 @@ public class PDAMain {
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
 
+    // PDA for language { a^n b^m+n c^m | n,m>=1 }
     private static PDAClass problemFourPDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(5));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b', 'c'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('ε', '$', 'a', 'b'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'a', 'b'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
@@ -137,17 +142,18 @@ public class PDAMain {
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
 
+    // PDA for L={W c^k ∣ W∈{a,b}*,k=number of b in W}
     private static PDAClass problemFivePDA() {
         ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
         ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(4));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b', 'c'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('ε', '$', 'a'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'b'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
 
         transitionFunction.addTransition(0, 'ε', 'ε', 1, "$");
-        transitionFunction.addTransition(1, 'a', 'ε', 1, "a");
+        transitionFunction.addTransition(1, 'a', 'ε', 1, "ε");
         transitionFunction.addTransition(1, 'b', 'ε', 1, "b");
         transitionFunction.addTransition(1, 'c', 'ε', 2, "ε");
         transitionFunction.addTransition(2, 'c', 'b', 3, "ε");
