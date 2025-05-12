@@ -61,7 +61,7 @@ public class CFGMain {
         return new CFGClass(cfgModel);
     }
 
-    // 2.	S -> bba | abb | aSbb | bbSa | ε
+    // 2.	S -> aSbSbS | bSbSaS | bSaSbS | ε
     private static CFGClass problemTwoCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S'));
