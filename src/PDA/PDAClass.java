@@ -1,22 +1,20 @@
 package PDA;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class PDAClass {
-    ArrayList<Integer> states;
-    ArrayList<Character> inputAlphabet;
-    ArrayList<Character> stackAlphabet;
-    TransitionFunction transitionFunction;
-    int startState;
-    ArrayList<Integer> finalStates;
-    char stackInitial;
+    private ArrayList<Integer> states;
+    private ArrayList<Character> inputAlphabet;
+    private ArrayList<Character> stackAlphabet;
+    private TransitionFunction transitionFunction;
+    private int startState;
+    private ArrayList<Integer> finalStates;
+    private char stackInitial;
 
-
-    PDAClass(ArrayList<Integer> states, ArrayList<Character> inputAlphabet,
-             ArrayList<Character> stackAlphabet, TransitionFunction transitionFunction,
-             int startState, ArrayList<Integer> finalStates, char stackInitial) {
+    public PDAClass(ArrayList<Integer> states, ArrayList<Character> inputAlphabet,
+                    ArrayList<Character> stackAlphabet, TransitionFunction transitionFunction,
+                    int startState, ArrayList<Integer> finalStates, char stackInitial) {
         this.states = states;
         this.inputAlphabet = inputAlphabet;
         this.stackAlphabet = stackAlphabet;
@@ -26,15 +24,63 @@ public class PDAClass {
         this.stackInitial = stackInitial;
     }
 
-    public boolean isAccepted(String s) {
-        // return true if string valid
-        // return false if string invalid
-        return false;
+    public boolean isAccepted(String input) {
+        Stack<Character> stack = new Stack<>();
+        stack.push(stackInitial);
+        return simulate(startState, input, 0, stack);
     }
 
-    public void solveProblem(BufferedReader br, BufferedWriter bw) {
-        // read input from input file then call isAccept method
-        // and write result in output file
+    private boolean simulate(int currentState, String input, int index, Stack<Character> stack) {
+        char inputChar = (index < input.length()) ? input.charAt(index) : 'ε';
+        char stackTop = stack.isEmpty() ? 'ε' : stack.peek();
+
+        // Try input transition
+        TransitionValue transition = transitionFunction.getTransition(currentState, inputChar, stackTop);
+        if (transition != null) {
+            Stack<Character> newStack = new Stack<>();
+            newStack.addAll(stack);
+            if (!newStack.isEmpty()) newStack.pop();
+            for (int i = transition.stackPush.length() - 1; i >= 0; i--) {
+                char c = transition.stackPush.charAt(i);
+                if (c != 'ε') newStack.push(c);
+            }
+            int nextIndex = inputChar == 'ε' ? index : index + 1;
+            if (simulate(transition.nextState, input, nextIndex, newStack)) return true;
+        }
+
+        // Try ε transition
+        TransitionValue epsilonTransition = transitionFunction.getTransition(currentState, 'ε', stackTop);
+        if (epsilonTransition != null) {
+            Stack<Character> newStack = new Stack<>();
+            newStack.addAll(stack);
+            if (!newStack.isEmpty()) newStack.pop();
+            for (int i = epsilonTransition.stackPush.length() - 1; i >= 0; i--) {
+                char c = epsilonTransition.stackPush.charAt(i);
+                if (c != 'ε') newStack.push(c);
+            }
+            if (simulate(epsilonTransition.nextState, input, index, newStack)) return true;
+        }
+
+        return index == input.length() && finalStates.contains(currentState);
+    }
+
+    public void solveProblem(BufferedReader br, BufferedWriter bw) throws IOException {
+        String line;
+        int problemNumber = 0;
+
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+
+            problemNumber = Integer.parseInt(line.trim());
+            bw.write(problemNumber + "\n");
+
+            while (!(line = br.readLine()).equals("end")) {
+                boolean accepted = isAccepted(line.trim());
+                bw.write(accepted ? "Accepted\n" : "Rejected\n");
+            }
+
+            bw.write("x\n");
+        }
+        bw.flush();
     }
 }
-
