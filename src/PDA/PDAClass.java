@@ -66,21 +66,14 @@ public class PDAClass {
 
     public void solveProblem(BufferedReader br, BufferedWriter bw) throws IOException {
         String line;
-        int problemNumber = 0;
-
         while ((line = br.readLine()) != null) {
-            if (line.trim().isEmpty()) continue;
+            if (line.trim().isEmpty()) continue; // Skip empty lines
+            if (line.equals("end")) break; // Stop processing when "end" is encountered
 
-            problemNumber = Integer.parseInt(line.trim());
-            bw.write(problemNumber + "\n");
-
-            while (!(line = br.readLine()).equals("end")) {
-                boolean accepted = isAccepted(line.trim());
-                bw.write(accepted ? "Accepted\n" : "Rejected\n");
-            }
-
-            bw.write("x\n");
+            boolean accepted = isAccepted(line.trim());
+            bw.write(accepted ? "Accepted\n" : "Rejected\n");
         }
+        bw.write("x\n"); // Write "x" after processing all inputs for a problem
         bw.flush();
     }
 }

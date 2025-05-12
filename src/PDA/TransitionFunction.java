@@ -1,13 +1,18 @@
 package PDA;
 
-public class TransitionFunction {
+import java.util.HashMap;
+import java.util.Map;
 
-    public void addressItem(int currentState, char input, char stackTop, int nextState, String stackPush) {
-        //creates a transition key and a transition value and stores them in a map
+class TransitionFunction {
+    private Map<TransitionKey, TransitionValue> transitions = new HashMap<>();
+
+    public void addTransition(int currentState, char input, char stackTop, int nextState, String stackPush) {
+        TransitionKey key = new TransitionKey(currentState, input, stackTop);
+        TransitionValue value = new TransitionValue(nextState, stackPush);
+        transitions.put(key, value);
     }
 
     public TransitionValue getTransition(int currentState, char input, char stackTop) {
-        //returns next state and symbol to be pushed into the stack
-        return null;
+        return transitions.get(new TransitionKey(currentState, input, stackTop));
     }
 }
