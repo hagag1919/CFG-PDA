@@ -86,6 +86,13 @@ public class PDAMain {
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
 
+        transitionFunction.addTransition(0, 'ε', 'ε', 1, "$");
+        transitionFunction.addTransition(1, 'a', 'ε', 2, "a");
+        transitionFunction.addTransition(2, 'a', 'ε', 3, "a");
+        transitionFunction.addTransition(3, 'a', 'ε', 4, "a");
+        transitionFunction.addTransition(4, 'b', 'a', 5, "ε");
+        transitionFunction.addTransition(5, 'b', 'a', 6, "ε");
+        transitionFunction.addTransition(6, 'ε', '$', 6, "ε");
 
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
@@ -108,7 +115,7 @@ public class PDAMain {
         transitionFunction.addTransition(2, '{', 'ε', 1, "{");
         transitionFunction.addTransition(2, '}', '{', 2, "ε");
         transitionFunction.addTransition(2, ' ', 'ε', 2, "ε");
-        transitionFunction.addTransition(3, 'ε', '$', 3, "ε");
+        transitionFunction.addTransition(2, 'ε', '$', 3, "ε");
 
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
