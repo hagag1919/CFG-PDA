@@ -6,7 +6,7 @@ not accepted
 x
 2
 accepted
-not accepted
+accepted
 not accepted
 not accepted
 x

@@ -46,15 +46,19 @@ public class PDAClass {
         }
         visited.add(key);
         
-        // Accept if we've consumed all input and are in a final state or have empty stack (based on acceptance mode)
+        // For debugging
+        // System.out.println("State: " + currentState + ", Index: " + index +
+        //                   (index < input.length() ? ", Input: " + input.charAt(index) : ", End of input") +
+        //                   ", Stack: " + stack);
+        
+        // Accept if we've consumed all input and are in a final state
         if (index == input.length()) {
-            if ((finalStates.contains(currentState) && !acceptByEmptyStack) || 
-                (stack.isEmpty() && acceptByEmptyStack) ||
-                (finalStates.contains(currentState) && stack.isEmpty())) {
+            // Check if we're already in a final state
+            if (finalStates.contains(currentState)) {
                 return true;
             }
             
-            // Try epsilon transitions
+            // Try epsilon transitions to see if we can reach a final state
             char stackTop = stack.isEmpty() ? 'ε' : stack.peek();
             List<TransitionValue> epsilonTransitions = transitionFunction.getTransitions(currentState, 'ε', stackTop);
             

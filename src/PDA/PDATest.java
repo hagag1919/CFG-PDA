@@ -146,42 +146,43 @@ public class PDATest {
 
     // PDA for language { a^(3n) b^(2n) | n ≥ 1 }
     private static PDAClass createProblemTwoPDA() {
-        ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
-        ArrayList<Integer> finalStates = new ArrayList<>(Arrays.asList(7));
+        ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
+        ArrayList<Integer> finalStates = new ArrayList<>(Arrays.asList(5));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'a'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'X'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
 
-        // Following the exact state diagram provided
-        // State 0: initial state
-        transitionFunction.addTransition(0, 'ε', 'ε', 1, "$"); // Push $ and go to state 1
-        
-        // State 1: Read first a
-        transitionFunction.addTransition(1, 'a', 'ε', 2, "ε"); // Read a, epsilon -> epsilon
-        
-        // State 2: Can read a's
-        transitionFunction.addTransition(2, 'a', 'ε', 2, "ε"); // Read a (loop), epsilon -> epsilon
-        transitionFunction.addTransition(2, 'a', 'ε', 3, "a"); // Read a, epsilon -> a (push a)
-        
-        // State 3: Continue reading a's or start reading b's
-        transitionFunction.addTransition(3, 'a', 'ε', 4, "a"); // Read a, epsilon -> a (push a)
-        
-        // State a: Can read more a's or b's
-        transitionFunction.addTransition(4, 'a', 'ε', 2, "ε"); // Read a, epsilon -> epsilon (go to state 2)
-        transitionFunction.addTransition(4, 'b', 'a', 5, "ε"); // Read b, pop a, go to state 5
-        
-        // State 5: Read b's
-        transitionFunction.addTransition(5, 'b', 'a', 5, "ε"); // Read b, pop a, stay in state 5
-        transitionFunction.addTransition(5, 'b', 'a', 6, "ε"); // Read b, pop a, go to state 6
-        
-        // State 6: Final transitions
-        transitionFunction.addTransition(6, 'b', 'a', 5, "ε"); // Read b, pop a, go to state 5
-        transitionFunction.addTransition(6, 'ε', '$', 7, "ε"); // If $ is left, go to accepting state
-        
+        // Initial setup: Push initial stack symbol
+        transitionFunction.addTransition(0, 'ε', '$', 1, "$");
+
+        // Read first a
+        transitionFunction.addTransition(1, 'a', '$', 2, "$");
+        transitionFunction.addTransition(1, 'a', 'X', 2, "X");
+
+        // Read second a
+        transitionFunction.addTransition(2, 'a', '$', 3, "$");
+        transitionFunction.addTransition(2, 'a', 'X', 3, "X");
+
+        // Read third a → done 3 a’s → push 2 X’s
+        transitionFunction.addTransition(3, 'a', '$', 1, "XX$");
+        transitionFunction.addTransition(3, 'a', 'X', 1, "XXX");
+
+        // Once done reading all a’s → ε-transition to b-reading state
+        transitionFunction.addTransition(1, 'ε', '$', 4, "$");
+        transitionFunction.addTransition(1, 'ε', 'X', 4, "X");
+
+        // In state 4: pop X for each b
+        transitionFunction.addTransition(4, 'b', 'X', 4, "ε");
+
+        // When stack reaches $, and input ends → accept
+        transitionFunction.addTransition(4, 'ε', '$', 5, "$");
+
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
+
+
 
     // PDA for balanced parentheses language
     private static PDAClass createProblemThreePDA() {

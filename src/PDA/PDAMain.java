@@ -95,33 +95,39 @@ public class PDAMain {
 
     // PDA for language { a^(3n) b^(2n) | n ≥ 1 }
     private static PDAClass problemTwoPDA() {
-        ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7));
-        ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(7));
+        ArrayList<Integer> states = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
+        ArrayList<Integer> finalStates = new ArrayList<>(Collections.singletonList(5));
         ArrayList<Character> inputAlphabet = new ArrayList<>(Arrays.asList('a', 'b'));
-        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'X', 'Y'));
+        ArrayList<Character> stackAlphabet = new ArrayList<>(Arrays.asList('$', 'X'));
         int startState = 0;
         char stackInitial = '$';
         TransitionFunction transitionFunction = new TransitionFunction();
 
-        // Start by reading a's in groups of 3, pushing one X for each group
-        transitionFunction.addTransition(0, 'a', '$', 1, "$"); // Read first a
-        transitionFunction.addTransition(1, 'a', '$', 2, "$"); // Read second a
-        transitionFunction.addTransition(2, 'a', '$', 3, "X$"); // Read third a, push X marker
-        
-        // Continue reading a's in groups of 3, pushing X each time
-        transitionFunction.addTransition(3, 'a', 'X', 4, "X"); // Read first a of next group
-        transitionFunction.addTransition(4, 'a', 'X', 5, "X"); // Read second a of next group
-        transitionFunction.addTransition(5, 'a', 'X', 3, "XX"); // Read third a, push another X marker
-        
-        // Transition to processing b's
-        transitionFunction.addTransition(3, 'b', 'X', 6, "Y"); // Read first b, change X to Y
-        
-        // Read pairs of b's, popping one Y for each pair
-        transitionFunction.addTransition(6, 'b', 'Y', 6, ""); // Read second b, pop Y
-        
-        // Accept when stack has only $ and all input is consumed
-        transitionFunction.addTransition(6, 'ε', '$', 7, "$");
+        // Initial setup: Push initial stack symbol
+        transitionFunction.addTransition(0, 'ε', '$', 1, "$");
 
+        // Read first a
+        transitionFunction.addTransition(1, 'a', '$', 2, "$");
+        transitionFunction.addTransition(1, 'a', 'X', 2, "X");
+
+        // Read second a
+        transitionFunction.addTransition(2, 'a', '$', 3, "$");
+        transitionFunction.addTransition(2, 'a', 'X', 3, "X");
+
+        // Read third a → done 3 a’s → push 2 X’s
+        transitionFunction.addTransition(3, 'a', '$', 1, "XX$");
+        transitionFunction.addTransition(3, 'a', 'X', 1, "XXX");
+
+        // Once done reading all a’s → ε-transition to b-reading state
+        transitionFunction.addTransition(1, 'ε', '$', 4, "$");
+        transitionFunction.addTransition(1, 'ε', 'X', 4, "X");
+
+        // In state 4: pop X for each b
+        transitionFunction.addTransition(4, 'b', 'X', 4, "ε");
+
+        // When stack reaches $, and input ends → accept
+        transitionFunction.addTransition(4, 'ε', '$', 5, "$");
+        
         return new PDAClass(states, inputAlphabet, stackAlphabet, transitionFunction, startState, finalStates, stackInitial);
     }
 
