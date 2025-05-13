@@ -1,14 +1,13 @@
 package PDA;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class TransitionValue {
+class TransitionValue {
     int nextState;
+    char stackPop;
     String stackPush;
 
-    TransitionValue(int nextState, String stackPush) {
+    TransitionValue(int nextState, char stackPop, String stackPush) {
         this.nextState = nextState;
+        this.stackPop = stackPop;
         this.stackPush = stackPush;
     }
 }

@@ -2,7 +2,7 @@ package PDA;
 
 import java.util.Objects;
 
-public class TransitionKey {
+class TransitionKey {
     int currentState;
     char input;
     char stackTop;
@@ -16,11 +16,9 @@ public class TransitionKey {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TransitionKey)) return false;
         TransitionKey that = (TransitionKey) o;
-        return currentState == that.currentState &&
-                input == that.input &&
-                stackTop == that.stackTop;
+        return currentState == that.currentState && input == that.input && stackTop == that.stackTop;
     }
 
     @Override

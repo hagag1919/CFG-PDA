@@ -1,31 +1,31 @@
 1
-Rejected
-Rejected
-Rejected
-Rejected
+accepted
+accepted
+not accepted
+not accepted
 x
 2
-Rejected
-Rejected
-Rejected
-Rejected
+accepted
+not accepted
+not accepted
+not accepted
 x
 3
-Rejected
-Rejected
-Rejected
-Rejected
+accepted
+accepted
+not accepted
+not accepted
 x
 4
-Rejected
-Rejected
-Rejected
-Rejected
+accepted
+accepted
+not accepted
+not accepted
 x
 5
-Rejected
-Rejected
-Rejected
-Rejected
-Rejected
+accepted
+accepted
+not accepted
+accepted
+not accepted
 x
