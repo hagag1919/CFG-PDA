@@ -88,15 +88,15 @@ public class CFGMain {
         return new CFGClass(cfgModel);
     }
 
-    //4. S -> aaaT, T-> aaTb | ε
+    //4. S -> aaaT | ε, T-> aaTb | ε
     private static CFGClass problemFourCFG() {
         ArrayList<Character> terminals = new ArrayList<>(Arrays.asList('a', 'b'));
         ArrayList<Character> nonTerminals = new ArrayList<>(Arrays.asList('S', 'T'));
         Character startSymbol = 'S';
 
         Map<Character, ArrayList<String>> productionRules = new HashMap<>();
-        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT", "aaa")));
-        productionRules.put('T', new ArrayList<>(Arrays.asList("aaTb", "aab")));
+        productionRules.put('S', new ArrayList<>(Arrays.asList("aaaT", "ε")));
+        productionRules.put('T', new ArrayList<>(Arrays.asList("aaTb", "ε")));
 
         CFGModel cfgModel = new CFGModel(terminals, nonTerminals, startSymbol, productionRules);
         return new CFGClass(cfgModel);
