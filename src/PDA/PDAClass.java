@@ -51,14 +51,11 @@ public class PDAClass {
         //                   (index < input.length() ? ", Input: " + input.charAt(index) : ", End of input") +
         //                   ", Stack: " + stack);
         
-        // Accept if we've consumed all input and are in a final state
         if (index == input.length()) {
-            // Check if we're already in a final state
             if (finalStates.contains(currentState)) {
                 return true;
             }
             
-            // Try epsilon transitions to see if we can reach a final state
             char stackTop = stack.isEmpty() ? 'ε' : stack.peek();
             List<TransitionValue> epsilonTransitions = transitionFunction.getTransitions(currentState, 'ε', stackTop);
             
@@ -66,7 +63,6 @@ public class PDAClass {
                 Stack<Character> stackCopy = new Stack<>();
                 stackCopy.addAll(stack);
                 
-                // Handle stack operation for epsilon transition
                 if (processStackOperation(stackCopy, transition)) {
                     if (simulate(transition.nextState, input, index, stackCopy, new HashSet<>(visited))) {
                         return true;
@@ -80,13 +76,11 @@ public class PDAClass {
         char currentInput = input.charAt(index);
         char stackTop = stack.isEmpty() ? 'ε' : stack.peek();
 
-        // Try regular transitions with current input
         List<TransitionValue> transitions = transitionFunction.getTransitions(currentState, currentInput, stackTop);
         for (TransitionValue transition : transitions) {
             Stack<Character> stackCopy = new Stack<>();
             stackCopy.addAll(stack);
             
-            // Handle stack operation for input transition
             if (processStackOperation(stackCopy, transition)) {
                 if (simulate(transition.nextState, input, index + 1, stackCopy, new HashSet<>(visited))) {
                     return true;
@@ -94,13 +88,11 @@ public class PDAClass {
             }
         }
         
-        // Try epsilon transitions
         List<TransitionValue> epsilonTransitions = transitionFunction.getTransitions(currentState, 'ε', stackTop);
         for (TransitionValue transition : epsilonTransitions) {
             Stack<Character> stackCopy = new Stack<>();
             stackCopy.addAll(stack);
             
-            // Handle stack operation for epsilon transition
             if (processStackOperation(stackCopy, transition)) {
                 if (simulate(transition.nextState, input, index, stackCopy, new HashSet<>(visited))) {
                     return true;
@@ -112,7 +104,6 @@ public class PDAClass {
     }
     
     private boolean processStackOperation(Stack<Character> stack, TransitionValue transition) {
-        // Pop from stack if required and if stack has the correct top symbol
         if (transition.stackPop != 'ε') {
             if (stack.isEmpty() || stack.peek() != transition.stackPop) {
                 return false;
@@ -120,7 +111,6 @@ public class PDAClass {
             stack.pop();
         }
         
-        // Push new symbols onto stack (in reverse order)
         for (int i = transition.stackPush.length() - 1; i >= 0; i--) {
             if (transition.stackPush.charAt(i) != 'ε') {
                 stack.push(transition.stackPush.charAt(i));
